@@ -10,6 +10,8 @@ internal abstract class Item : ScriptableObject
     internal Inventory ownerInventory;
     [SerializeField]
     internal int ownerInventoryIndex;
+    [SerializeField]
+    internal Sprite background;
 
     internal virtual Item CreateInstance() {return null; }
 

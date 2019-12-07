@@ -26,6 +26,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  ownerInventoryIndex: 0
+  ownerInventoryIndex: 1
+  background: {fileID: 21300000, guid: 1b8b216a999f74b4e9ce158f3cafc0ce, type: 3}
   damage: 48
   sharpness: 26
