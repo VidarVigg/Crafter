@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class InventoryParent : MonoBehaviour
 {
-    public Inventory itemInventory = new Inventory(0);
+    public Inventory itemInventory = new Inventory(10);
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1762,7 +1762,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22080
+  m_Name: pb_Mesh13964
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2018,7 +2018,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21776
+  m_Name: pb_Mesh13644
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3240,7 +3240,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22092
+  m_Name: pb_Mesh13976
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3403,7 +3403,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21892
+  m_Name: pb_Mesh13760
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3960,6 +3960,7 @@ MonoBehaviour:
   itemSlotPrefab: {fileID: 2832213497328073751, guid: 11ebc2b671ef666478c9e5b20963c26e,
     type: 3}
   inventoryPanel: {fileID: 1994550149}
+  pickedUpItem: {fileID: 0}
 --- !u!4 &1014959230
 Transform:
   m_ObjectHideFlags: 0
@@ -6230,13 +6231,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1803770634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 736bb4cdbc3d73f4eb313d3a69bcf140, type: 3}
+  m_Script: {fileID: 11500000, guid: 617e51abc613cb14ba3aa20064ed4e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemInventory:
     items:
-    - {fileID: 11400000, guid: c1d68e496e25e3145b4679ab05192cb6, type: 2}
     - {fileID: 11400000, guid: f1455ab91f145e54a9ee8f82b9a70f34, type: 2}
+    - {fileID: 11400000, guid: c1d68e496e25e3145b4679ab05192cb6, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
   itemVisualizers: []
@@ -6244,6 +6251,7 @@ MonoBehaviour:
   itemSlotPrefab: {fileID: 2832213497328073751, guid: 11ebc2b671ef666478c9e5b20963c26e,
     type: 3}
   inventoryPanel: {fileID: 2036397998}
+  pickedUpItem: {fileID: 0}
 --- !u!4 &1803770636
 Transform:
   m_ObjectHideFlags: 0
@@ -6543,7 +6551,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21744
+  m_Name: pb_Mesh13612
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

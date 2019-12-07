@@ -18,8 +18,8 @@ public class InventoryManager : InventoryParent
     [SerializeField]
     private Transform inventoryPanel;
 
+    [SerializeField]
     private Item pickedUpItem;
-
 
 
     private void Awake()
@@ -28,8 +28,8 @@ public class InventoryManager : InventoryParent
         itemVisualizers = new ItemVisualizer[itemInventory.items.Length];
         itemSlotGameObject = new GameObject[itemInventory.items.Length];
 
-
     }
+
 
     void Start()
     {
@@ -46,6 +46,7 @@ public class InventoryManager : InventoryParent
 
     private void CreateItemSlots()
     {
+
         for (int i = 0; i < itemInventory.items.Length; i++)
         {
             GameObject itemSlotClone = Instantiate(itemSlotPrefab, inventoryPanel);
@@ -72,10 +73,12 @@ public class InventoryManager : InventoryParent
     {
         for (int i = 0; i < itemInventory.items.Length; i++)
         {
+
             if (itemInventory.items[i])
             {
                 AddEventAtIndex(i);
             }
+
         }
     }
     private void VisualizeAll()
@@ -91,6 +94,19 @@ public class InventoryManager : InventoryParent
 
     }
 
+    private void Pickup(int index)
+    {
+        if (!pickedUpItem)
+        {
+            pickedUpItem = itemInventory.items[index];
+            DevisualizeAtIndex(index);
+            Delete(index);
+        }
+        Debug.Log(itemInventory.items[index]);
+
+    }
+
+
     private void DevisualizeAtIndex(int index)
     {
         itemVisualizers[index].itemImage.sprite = null;
@@ -102,21 +118,15 @@ public class InventoryManager : InventoryParent
         DevisualizeAtIndex(index);
     }
 
-    private void Pickup(int index)
+    private void Delete(int index)
     {
-        if (!pickedUpItem)
-        {
-            pickedUpItem = itemInventory.items[index];
-            DevisualizeAtIndex(index);
-        }
-        Debug.Log(itemInventory.items[index]);
+        itemInventory.items[index] = null;
     }
 
-    private void PutDown(int index)
+    private void AddItem(Item item, int index)
     {
-        
+        item.ownerInventory = itemInventory;
+        item.ownerInventoryIndex = index;
+        itemInventory.items[index] = item;
     }
-
-
-
 }

@@ -13,6 +13,19 @@ MonoBehaviour:
   m_Name: New Sword
   m_EditorClassIdentifier: 
   itemName: Sword of Crystal Frost
+  swordSprite: {fileID: 21300000, guid: afe23199b8c9d2546bac7ac2491bbfe2, type: 3}
+  ownerInventory:
+    items:
+    - {fileID: 11400000, guid: f1455ab91f145e54a9ee8f82b9a70f34, type: 2}
+    - {fileID: 11400000}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  ownerInventoryIndex: 0
   damage: 48
   sharpness: 26
-  swordSprite: {fileID: 21300000, guid: afe23199b8c9d2546bac7ac2491bbfe2, type: 3}
