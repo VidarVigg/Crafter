@@ -817,7 +817,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &660224052
 GameObject:
@@ -940,7 +940,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -1580,7 +1580,7 @@ RectTransform:
   m_Children:
   - {fileID: 572266847}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2338,7 +2338,6 @@ MonoBehaviour:
   moveRight: 100
   jump: 32
   tabPressed: 9
-  timer: {fileID: 0}
 --- !u!4 &1574808021
 Transform:
   m_ObjectHideFlags: 0
@@ -2381,7 +2380,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1655198683
 GameObject:
@@ -2572,7 +2571,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1754906294
 MonoBehaviour:
@@ -2596,7 +2595,6 @@ MonoBehaviour:
   moveRight: 100
   jump: 32
   tabPressed: 9
-  timer: {fileID: 0}
 --- !u!1 &1803770634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,82 +2811,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1949091035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1949091037}
-  - component: {fileID: 1949091036}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1949091036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949091035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b9fadf806f9ea94ebce079f61dad473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wordDatabase:
-    highTierAdjective:
-    - Gleaming
-    - Rotting
-    - Glowing
-    - Ferocious
-    - Scorching
-    - Ominous
-    - Serene
-    - Enduring
-    - Forceful
-    - Deep
-    - Sorrowful
-    - Graceful
-    lowTierAdjective:
-    - Cold
-    - Dark
-    - Bright
-    - Honed
-    - Sturdy
-    - Jagged
-    - Rough
-    - Light
-    - Reinforced
-    - Fleeting
-    indefiniteNoun:
-    - Glow
-    - Embers
-    - Twilight
-    - Stones
-    - Doom
-    - Abyss
-    - Mountains
---- !u!4 &1949091037
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949091035}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.114597484, y: 1.4709803, z: -3.328125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1957547195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,7 +2941,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1975851868
 LineRenderer:
