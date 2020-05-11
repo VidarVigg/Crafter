@@ -10,21 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cea7e4240f986a4fb90d6db9c0343b2, type: 3}
-  m_Name: New Blue Print
+  m_Name: BluePrint
   m_EditorClassIdentifier: 
   itemName: TorchBluePrint
-  itemSprite: {fileID: 21300000, guid: 1834a392d9a8c3d4dab585c5c1c225b2, type: 3}
-  ownerInventory: 0
-  inventoryIndex: 0
-  background: {fileID: 21300000, guid: 1b8b216a999f74b4e9ce158f3cafc0ce, type: 3}
+  itemType: BluePrint
   key: 
   stackable: 1
-  numberOfRequiredComponents: 4
+  numberOfRequiredComponents: 3
   requiredComponents:
-  - Resin
   - Resin
   - Resin
   - Resin
   output: Resin
   learnt: 0
-  bluePrintType: 0

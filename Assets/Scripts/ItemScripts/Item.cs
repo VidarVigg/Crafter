@@ -5,28 +5,19 @@ public abstract class Item : ScriptableObject
 {
     [SerializeField]
     internal string itemName;
-    internal Sprite itemSprite;
     [SerializeField]
-    internal InventoryTypes ownerInventory;
-    [SerializeField]
-    internal int inventoryIndex;
-    internal Sprite background;
+    internal string itemType = "";
     [SerializeField]
     internal string key;
+
+    internal InventoryTypes ownerInventory;
+    internal int inventoryIndex;
     [SerializeField]
     internal bool stackable = true;
-
+    internal Sprite itemSprite;
+    internal Sprite background;
 
     internal abstract Item CreateInstance(InventoryTypes inventory);
     internal abstract ItemSaveInfo GetInstanceSaveInfo(Item item);
 
-}
-
-public enum ItemType
-{
-    Consumable,
-    Material,
-    BluePrint,
-    Weapon,
-    None
 }

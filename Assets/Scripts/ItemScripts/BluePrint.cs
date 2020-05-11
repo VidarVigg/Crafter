@@ -10,30 +10,23 @@ public class BluePrint : Item
     public List<string> requiredComponents = new List<string>();
     public string output;
     public bool learnt;
-    public enum BluePrintType
-    {
-        Torch,
-        Sword,
-    }
-    public BluePrintType bluePrintType;
-    internal string itemType = ItemType.BluePrint.ToString();
-
 
     internal override Item CreateInstance(InventoryTypes inventory)
     {
         BluePrint newBluePrint = CreateInstance<BluePrint>();
         newBluePrint.itemName = itemName;
         newBluePrint.itemType = itemType;
-        newBluePrint.bluePrintType = bluePrintType;
-        newBluePrint.itemSprite = SpriteHandler.GetInstance().GetItemSprite("BluePrint");// Should be specific
-        newBluePrint.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
+        newBluePrint.key = key;
+
         newBluePrint.ownerInventory = inventory;
         newBluePrint.inventoryIndex = inventoryIndex;
-        newBluePrint.key = key;
+
         newBluePrint.stackable = stackable;
         newBluePrint.requiredComponents = requiredComponents;
         newBluePrint.numberOfRequiredComponents = numberOfRequiredComponents;
         newBluePrint.output = output;
+        newBluePrint.itemSprite = SpriteHandler.GetInstance().GetItemSprite("BluePrint");
+        newBluePrint.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
         return newBluePrint;
     }
 
@@ -46,7 +39,6 @@ public class BluePrint : Item
         newSaveInfo.KEY = bluePrint.key;
         newSaveInfo.ITEMTYPE = itemType;
         newSaveInfo.OWNER = bluePrint.ownerInventory.ToString();
-        Debug.Log("Got Save Info " + newSaveInfo.OWNER);
         newSaveInfo.INDEX = bluePrint.inventoryIndex;
         newSaveInfo.STACKABLE = bluePrint.stackable;
         newSaveInfo.REQUIREDCOMPONENTS = bluePrint.requiredComponents.ToArray();
@@ -72,7 +64,7 @@ public class BluePrint : Item
             savedBluePrint.requiredComponents.Add(itemSaveInfo.REQUIREDCOMPONENTS[i]);
         }
         savedBluePrint.output = itemSaveInfo.OUTPUT;
-        savedBluePrint.itemSprite = SpriteHandler.GetInstance().GetItemSprite("BluePrint");//Should be specific based on type
+        savedBluePrint.itemSprite = SpriteHandler.GetInstance().GetItemSprite("BluePrint");
         savedBluePrint.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
         return savedBluePrint;
     }

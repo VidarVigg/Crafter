@@ -52,7 +52,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     protected static OnPickedUpBluePrint onPickedUpBluePrint;
     protected static OnPickedUpBluePrint onUnloadedBluePrint;
     public delegate void InitializeInventoryRemotely(int size);
-    public InitializeInventoryRemotely initializeInventoryRemotely; // Should be in the affected script
+    public InitializeInventoryRemotely initializeInventoryRemotely; // Todo: put in specific script
 
     public InventoryTypes GetInventoryType
     {
@@ -192,7 +192,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             if (itemInventory.items[index] == null)
             {
                 //Debug.Log(" Tried To Put Down Item");
-                TryToPutDown(index, pickedUpItem); // don't repeat below
+                TryToPutDown(index, pickedUpItem);
             }
             else
             {
@@ -291,7 +291,6 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         VisualizeAtIndex(index, item);
         item.ownerInventory = inventoryType;
         item.inventoryIndex = itemSlotData[index].SlotIndex;
-        //Maybe update slotAmt here.
     }
 
     protected virtual void TryToPutDown(int index, Item item)

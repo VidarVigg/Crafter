@@ -5,9 +5,6 @@ using System;
 public class CraftingMaterial : Item
 {
 
-    [SerializeField]
-    private string itemType = ItemType.Material.ToString();
-
     public enum CraftingMaterialTypes
     {
         Resin,

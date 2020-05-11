@@ -18,14 +18,10 @@ internal class Weapon : Item
     [SerializeField]
     internal int damage;
 
-    [SerializeField]
-    internal string itemType = ItemType.Weapon.ToString();
-
     public WeaponTypes weaponType;
 
     internal override Item CreateInstance(InventoryTypes inventory = InventoryTypes.None)
     {
-
         Weapon newWeapon = CreateInstance<Weapon>();
         newWeapon.itemType = itemType;
         newWeapon.weaponType = weaponType;

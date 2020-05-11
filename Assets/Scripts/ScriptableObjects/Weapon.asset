@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e22cb26e69e3f3e4caf133b99890fa79, type: 3}
-  m_Name: Sword
+  m_Name: Weapon
   m_EditorClassIdentifier: 
   itemName: Sword
-  ownerInventory: 0
-  inventoryIndex: 0
+  itemType: Weapon
   key: 
   stackable: 1
   damage: 40
-  itemType: Weapon
   weaponType: 0

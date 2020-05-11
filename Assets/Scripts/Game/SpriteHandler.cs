@@ -32,10 +32,6 @@ public class SpriteHandler : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        for (int i = 0; i < itemSprites.Length; i++)
-        {
-
-        }
     }
     public Sprite GetItemSprite(string key)
     {
