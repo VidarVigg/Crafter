@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider))]
 public class Interactable : MonoBehaviour, IInteractable
 {
     public delegate void ActivateInteractable();
@@ -11,7 +11,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public delegate void DeactivateInteractable();
     public DeactivateInteractable deactivateInteractable;
 
-    public virtual void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter(Collider collision)
     {
         PlayerManager player;
         if (player = (collision.GetComponent<PlayerManager>()))
@@ -20,7 +20,7 @@ public class Interactable : MonoBehaviour, IInteractable
             player.ProcessInteractable(this);
         }
     }
-    public virtual void OnTriggerExit2D(Collider2D collision)
+    public virtual void OnTriggerExit(Collider collision)
     {
         PlayerManager player;
         if (player = (collision.GetComponent<PlayerManager>()))

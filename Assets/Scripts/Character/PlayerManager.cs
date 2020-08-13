@@ -3,94 +3,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : Character, IGameStateObserver, ISavable
+public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
 {
-
-    private Rigidbody2D rigidbody;
     [SerializeField]
     private bool inInteractingDistance;
-    [SerializeField]
-    private Interactable closestInteractable;
+
     [SerializeField]
     private MagicGrid magicGrid;
     [SerializeField]
     private string playerName = "playerName";
     [SerializeField]
     private PlayerInventory inventory;
+    [SerializeField]
+    private float sprintAddition;
+    [SerializeField]
+    private bool sprinting;
+    [SerializeField]
+    private RavenMaster pet;
+    [SerializeField]
+    private CameraFollow cameraFollow;
+    private float defaultMovementSpeed;
 
-    public Interactable ClosestInteractable
-    {
-        get { return closestInteractable; }
-        set { closestInteractable = value; }
-    }
     public bool InInteractingDistance
     {
         get { return inInteractingDistance; }
         set { inInteractingDistance = value; }
     }
 
-    private void Awake()
+    public void ProcessInteractable(Interactable interactable)
+    {
+        ClosestInteractable = interactable;
+    }
+    private void Start()
     {
         GameManager.GetInstance().Player = this;
         GameManager.GetInstance().gameStateObservers.Add(this);
-    }
-
-    private void Start()
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
-        InputManager.INSTANCE.onMoveKeyPressed += Move;
-        InputManager.INSTANCE.onInteract += Interact;
-        InputManager.INSTANCE.onSecondaryMousePressed += MagicGridToggle;
+        rigidbody = GetComponent<Rigidbody>();
+        AttachControls();
         SaveManager.INSTANCE.saveObserversDictionary.Add("PlayerInventory", this); //
+        defaultMovementSpeed = movementSpeed;
     }
 
-    internal void ProcessInteractable(Interactable interactable)
+    private void Update()
     {
-        closestInteractable = interactable;
+        rigidbody.velocity = movementDirection.normalized * movementSpeed;
     }
-
-    private void Move(Vector2 direction)
-    {
-        rigidbody.velocity = direction.normalized * 1.5f;
-        movementDirection = direction;
-
-    }
-
-    private void Interact()
-    {
-        if (closestInteractable != null)
-        {
-            Debug.Log("Interacted With " + closestInteractable.name);
-            closestInteractable.Activate();
-        }
-        else
-        {
-            Debug.Log("Interacted With None");
-        }
-    }
-
-    private void MagicGridToggle(bool toggle)
-    {
-        magicGrid.magicCanvas.enabled = toggle;
-        if (toggle)
-        {
-            magicGrid.ActivateGrid();
-        }
-        if (!toggle)
-        {
-            magicGrid.DisableGrid();
-        }
-    }
-
     public void OnGameStateChanged(GameStates state)
     {
         if (state == GameStates.Inventory)
         {
-            InputManager.INSTANCE.onSecondaryMousePressed -= MagicGridToggle;
+            InputManager.INSTANCE.onSecondaryMousePressed -= RightMouseToggle;
         }
         else if (state == GameStates.Game)
         {
-            InputManager.INSTANCE.onSecondaryMousePressed += MagicGridToggle;
+            InputManager.INSTANCE.onSecondaryMousePressed += RightMouseToggle;
         }
     }
 
@@ -122,6 +88,37 @@ public class PlayerManager : Character, IGameStateObserver, ISavable
 
     public void FinalizeLoad()
     {
-        //inventory.UpdateItemslotValues();
+        //throw new NotImplementedException();
+    }
+
+    public override void ActivateAbility()
+    {
+        movementDirection = Vector3.zero;
+        DetachControls();
+        pet.Activate();
+        cameraFollow.SwithObjectToFollow(pet.transform);
+    }
+    public override void RightMouseToggle(bool toggle)
+    {
+        magicGrid.magicCanvas.enabled = toggle;
+        if (toggle)
+        {
+            magicGrid.ActivateGrid();
+        }
+        if (!toggle)
+        {
+            magicGrid.DisableGrid();
+        }
+    }
+    public override void Sprint(bool sprinting)
+    {
+        if (sprinting)
+        {
+            movementSpeed += sprintAddition;
+        }
+        else
+        {
+            movementSpeed = defaultMovementSpeed;
+        }
     }
 }

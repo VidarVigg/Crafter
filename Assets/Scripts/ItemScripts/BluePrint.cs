@@ -47,7 +47,7 @@ public class BluePrint : Item
         return newSaveInfo;
     }
 
-    internal BluePrint GetSavedBluePrint(BluePrintSaveInfo itemSaveInfo)
+    internal BluePrint CreateBluePrintFromSave(BluePrintSaveInfo itemSaveInfo) // Can be set as an optional parameter parehaps
     {
         BluePrint savedBluePrint = CreateInstance<BluePrint>();
         savedBluePrint.itemName = itemSaveInfo.NAME;

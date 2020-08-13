@@ -9,4 +9,5 @@ public class ItemSaveInfo
     public bool STACKABLE;
     public string ITEMTYPE;
     public string OWNER;
+    public string ITEMCOPIES;
 }

@@ -32,7 +32,7 @@ public class Node : MonoBehaviour
     private void OnMouseOver()
     {
         hover = true;
-        if (InputManager.INSTANCE.held)
+        if (InputManager.INSTANCE.mainMouseHeld)
         {
             if (!activated)
             {

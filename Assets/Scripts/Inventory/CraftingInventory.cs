@@ -23,7 +23,6 @@ public class CraftingInventory : InventoryManager
         //base.Start();
         onUnloadedBluePrint += ResetCraftingInventory;
     }
-
     public void Initialize(BluePrint bluePrint)
     {
         itemInventory = new Inventory(bluePrint.numberOfRequiredComponents);

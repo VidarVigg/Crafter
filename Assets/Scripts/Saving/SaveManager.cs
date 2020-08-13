@@ -87,7 +87,7 @@ public class SaveManager : MonoBehaviour
         BluePrintSaveInfo bluePrintSaveInfo = new BluePrintSaveInfo();
         bluePrintSaveInfo = JsonUtility.FromJson<BluePrintSaveInfo>(saveObject.bluePrintInventory[index]);
         BluePrint bluePrint = ScriptableObject.CreateInstance<BluePrint>();
-        bluePrint = bluePrint.GetSavedBluePrint(bluePrintSaveInfo);
+        bluePrint = bluePrint.CreateBluePrintFromSave(bluePrintSaveInfo);
         item = bluePrint;
         saveObserversDictionary["BluePrintInventory"].ApplySavedItems(item, itemSaveInfo.INDEX);
     }
@@ -108,7 +108,7 @@ public class SaveManager : MonoBehaviour
                     WeaponSaveInfo weaponSaveInfo = new WeaponSaveInfo();
                     weaponSaveInfo = JsonUtility.FromJson<WeaponSaveInfo>(loadedSave.playerInventory[index]);
                     Weapon weapon = ScriptableObject.CreateInstance<Weapon>();
-                    weapon = weapon.GetSavedWeapon(weaponSaveInfo);
+                    weapon = weapon.CreateWeaponFromSave(weaponSaveInfo);
                     item = weapon;
                     break;
                 case "Material":
@@ -122,7 +122,7 @@ public class SaveManager : MonoBehaviour
                     BluePrintSaveInfo bluePrintSaveInfo = new BluePrintSaveInfo();
                     bluePrintSaveInfo = JsonUtility.FromJson<BluePrintSaveInfo>(loadedSave.playerInventory[index]);
                     BluePrint bluePrint = ScriptableObject.CreateInstance<BluePrint>();
-                    bluePrint = bluePrint.GetSavedBluePrint(bluePrintSaveInfo);
+                    bluePrint = bluePrint.CreateBluePrintFromSave(bluePrintSaveInfo);
                     item = bluePrint;
                     break;
 
@@ -140,7 +140,7 @@ public class SaveManager : MonoBehaviour
             item.Value.SetSaveInfo(save);
         }
         _filePath = Application.persistentDataPath + "/" + save + ".txt";
-        string saveObject = JsonUtility.ToJson(save);
+        string saveObject = JsonUtility.ToJson(save, true);
         File.WriteAllText(_filePath, saveObject);
         File.AppendText(_filePath);
     }

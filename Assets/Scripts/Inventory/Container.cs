@@ -7,8 +7,6 @@ public class Container : InventoryManager
 {
     [SerializeField]
     private ContainerData containerData;
-
-    [SerializeField]
     private Interactable interactable;
 
     private bool opened;
@@ -42,7 +40,7 @@ public class Container : InventoryManager
             {
                 int index = i;
                 Inventory.items[index] = ContainerData.possibleLoot[Random.Range(0, ContainerData.possibleLoot.Length)].CreateInstance(inventoryType);
-                
+
             }
             VisualizeItemSlots();
             UpdateItemslotValues();

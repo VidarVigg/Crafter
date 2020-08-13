@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     protected GameObject[] itemSlotGameObject;
 
     [SerializeField]
-    protected Item[] developementInventory; 
+    protected Item[] developementInventory;
 
     [SerializeField]
     protected ItemSlot[] itemSlotData;
@@ -152,7 +152,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             if (itemInventory.items[i] != null)
             {
                 itemSlotGameObject[i].GetComponent<ItemSlot>().SlotKey = itemInventory.items[i].key;
-                itemSlotGameObject[i].GetComponent<ItemSlot>().ItemAmt += 1;
+                //itemSlotGameObject[i].GetComponent<ItemSlot>().ItemAmt += 1;
             }
         }
     }
@@ -170,7 +170,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     private void AddEventAtIndex(int index)
     {
         itemSlotGameObject[index].GetComponent<CustomButton>().leftClick.AddListener(() => OnClick(index, "Left"));
-        itemSlotGameObject[index].GetComponent<CustomButton>().rightClick.AddListener(() => OnClick(index, "Right")); 
+        itemSlotGameObject[index].GetComponent<CustomButton>().rightClick.AddListener(() => OnClick(index, "Right"));
     }
 
     protected virtual void OnClick(int index, string key)
@@ -191,14 +191,12 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             ItemSlot slot = itemSlotData[index];
             if (itemInventory.items[index] == null)
             {
-                //Debug.Log(" Tried To Put Down Item");
                 TryToPutDown(index, pickedUpItem);
             }
             else
             {
                 if (itemInventory.items[index].key == pickedUpItem.key && itemInventory.items[index].stackable)
                 {
-
                     TryToPutDown(index, pickedUpItem);
                 }
                 else
@@ -224,14 +222,12 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
 
     private void Pickup(int index, string key)
     {
-
         ItemSlot slot = itemSlotGameObject[index].GetComponent<ItemSlot>();
         if (itemInventory.items[index] is BluePrint)
         {
             BluePrint bluePrint = itemInventory.items[index] as BluePrint;
             bluePrint.HandleBluePrint();
             DevisualizeAtIndex(index);
-            slot.ResetSlotValues();
             Delete(index);
             return;
         }
@@ -239,33 +235,33 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         {
             if (key == "Left")
             {
-                pickedUpAmt = slot.ItemAmt;
+                pickedUpAmt = itemInventory.items[index].itemCopies;
                 pickedUpItem = itemInventory.items[index];
                 DevisualizeAtIndex(index);
                 Delete(index);
-                slot.ResetSlotValues();
+                slot.HideItemAmt();
                 Debug.Log("Picked up all " + pickedUpAmt);
             }
-            else if (key == "Right")
-            {
-                Debug.Log("Picked up one");
-                if (slot.ItemAmt >= 1)
-                {
-                    pickedUpItem = itemInventory.items[index].CreateInstance(InventoryTypes.None);
-                    slot.ItemAmt -= 1;
-                    pickedUpAmt += 1;
-                    slot.SetDisplayAmount(slot.ItemAmt);
-                    if (slot.ItemAmt == 1)
-                    {
-                        slot.HideItemAmt();
-                    }
-                    if (slot.ItemAmt == 0)
-                    {
-                        slot.ResetSlotValues();
-                        DevisualizeAtIndex(index);
-                    }
-                }
-            }
+            //else if (key == "Right")
+            //{
+            //    Debug.Log("Picked up one");
+            //    if (/*slot.ItemAmt*/itemInventory.items[index].itemCopies >= 1)
+            //    {
+            //        pickedUpItem = itemInventory.items[index].CreateInstance(InventoryTypes.None);
+            //        itemInventory.items[index].itemCopies -= 1;
+            //        pickedUpAmt += 1;
+            //        slot.SetDisplayAmount(itemInventory.items[index].itemCopies/*slot.ItemAmt*/);
+            //        if (itemInventory.items[index].itemCopies == 1)
+            //        {
+            //            slot.HideItemAmt();
+            //        }
+            //        if (itemInventory.items[index].itemCopies == 0)
+            //        {
+            //            slot.ResetSlotValues();
+            //            DevisualizeAtIndex(index);
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -285,9 +281,16 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         itemInventory.items[index] = null;
     }
 
-    public void AddItem(Item item, int index)
+    public void AddItem(Item item, int index, bool stack = false)
     {
-        itemInventory.items[index] = item;
+        if (stack)
+        {
+            itemInventory.items[index].itemCopies += 1;
+        }
+        else
+        {
+            itemInventory.items[index] = item;
+        }
         VisualizeAtIndex(index, item);
         item.ownerInventory = inventoryType;
         item.inventoryIndex = itemSlotData[index].SlotIndex;
@@ -296,14 +299,14 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     protected virtual void TryToPutDown(int index, Item item)
     {
         ItemSlot slot = itemSlotGameObject[index].GetComponent<ItemSlot>();
-        slot.SlotKey = pickedUpItem.key;
-        slot.ItemAmt += pickedUpAmt;
-        AddItem(item, index);
+        bool stacking = itemInventory.items[index];
+        AddItem(item, index, stacking);
+        Debug.Log("The  picked up item " + pickedUpItem + " was added to index " + index + " Copies on index " + index + " = " + itemInventory.items[index].itemCopies);
         pickedUpAmt = 0;
         pickedUpItem = null;
-        if (slot.ItemAmt > 1)
+        if (item.itemCopies > 1)
         {
-            slot.SetDisplayAmount(slot.ItemAmt);
+            slot.SetDisplayAmount(/*slot.ItemAmt*/itemInventory.items[index].itemCopies);
             slot.DisplayItemAmt();
         }
     }
@@ -357,10 +360,4 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         Debug.Log(this.ToString() + " " + state);
     }
 
-
-
-
 }
-
-
-

@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        ServiceLocator.Initialize();  
+        ServiceLocator.Initialize();
         Initialize();
     }
 

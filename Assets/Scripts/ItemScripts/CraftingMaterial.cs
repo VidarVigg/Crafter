@@ -26,6 +26,7 @@ public class CraftingMaterial : Item
         newCraftingMaterial.key = craftingMaterialType.ToString();
         newCraftingMaterial.itemType = itemType;
         newCraftingMaterial.stackable = stackable;
+        newCraftingMaterial.itemCopies = itemCopies;
         return newCraftingMaterial;
     }
 
@@ -39,6 +40,7 @@ public class CraftingMaterial : Item
         craftingMaterialSaveInfo.OWNER = craftingMaterial.ownerInventory.ToString();
         craftingMaterialSaveInfo.INDEX = craftingMaterial.inventoryIndex;
         craftingMaterialSaveInfo.STACKABLE = craftingMaterial.stackable;
+        craftingMaterialSaveInfo.ITEMCOPIES = craftingMaterial.itemCopies.ToString();
         return craftingMaterialSaveInfo;
     }
 
@@ -53,6 +55,7 @@ public class CraftingMaterial : Item
         craftingMaterial.stackable = itemSaveInfo.STACKABLE;
         craftingMaterial.itemSprite = SpriteHandler.GetInstance().GetItemSprite(craftingMaterialType.ToString());
         craftingMaterial.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
+        craftingMaterial.itemCopies = int.Parse(itemSaveInfo.ITEMCOPIES);
         return craftingMaterial;
     }
     

@@ -31,6 +31,7 @@ internal class Weapon : Item
         newWeapon.inventoryIndex = inventoryIndex;
         newWeapon.key = weaponType.ToString();
         newWeapon.stackable = stackable;
+        newWeapon.itemCopies = itemCopies;
         newWeapon.itemSprite = SpriteHandler.GetInstance().GetItemSprite(weaponType.ToString());
         newWeapon.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
         return newWeapon;
@@ -47,10 +48,11 @@ internal class Weapon : Item
         newSaveInfo.INDEX = sword.inventoryIndex;
         newSaveInfo.KEY = sword.key;
         newSaveInfo.STACKABLE = sword.stackable;
+        newSaveInfo.ITEMCOPIES = sword.itemCopies.ToString();
         return newSaveInfo;
     }
 
-    internal Weapon GetSavedWeapon(WeaponSaveInfo itemSaveInfo)
+    internal Weapon CreateWeaponFromSave(WeaponSaveInfo itemSaveInfo)
     {
         Weapon savedWeapon = CreateInstance<Weapon>();
         savedWeapon.itemType = itemSaveInfo.ITEMTYPE;
@@ -65,6 +67,7 @@ internal class Weapon : Item
         savedWeapon.ownerInventory = owner;
         savedWeapon.key = itemSaveInfo.KEY;
         savedWeapon.stackable = itemSaveInfo.STACKABLE;
+        savedWeapon.itemCopies = int.Parse(itemSaveInfo.ITEMCOPIES);
         savedWeapon.itemSprite = SpriteHandler.GetInstance().GetItemSprite(weaponType.ToString());
         savedWeapon.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
         return savedWeapon;

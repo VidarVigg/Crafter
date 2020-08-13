@@ -15,8 +15,12 @@ public class InputManager : MonoBehaviour
     public OnMainMouse onMainMousePressed;
     public OnMainMouse onMainMouseClick;
 
-    public delegate void OnMoveKeyPressed(Vector2 direction);
+    public delegate void OnMoveKeyPressed(Vector3 direction);
     public OnMoveKeyPressed onMoveKeyPressed;
+    public OnMoveKeyPressed onChangedRotation;
+
+    public delegate void OnArrowKey(int dir);
+    public OnArrowKey onArrowKey;
 
     public delegate void OnMouseMoved(Vector2 mousePosition);
     public OnMouseMoved onMouseMoved;
@@ -27,9 +31,16 @@ public class InputManager : MonoBehaviour
     public delegate void OnTabPressed();
     public OnTabPressed onTabPressed;
 
+    public delegate void OnShiftPressed(bool held);
+    public OnShiftPressed onShiftPressed;
+
+    public delegate void OnActivate();
+    public OnActivate onActivate;
+
     public Dictionary<KeyCode, Delegate> inputDictionary = new Dictionary<KeyCode, Delegate>();
 
-    public bool held;
+    public bool mainMouseHeld;
+    public bool shiftHeld;
 
     public KeyCode interact = KeyCode.E;
     public KeyCode mainMouse = KeyCode.Mouse0;
@@ -40,6 +51,10 @@ public class InputManager : MonoBehaviour
     public KeyCode moveRight = KeyCode.D;
     public KeyCode jump = KeyCode.Space;
     public KeyCode tabPressed = KeyCode.Tab;
+    public KeyCode shift = KeyCode.LeftShift;
+    public KeyCode activate = KeyCode.F;
+    public KeyCode upArrow = KeyCode.UpArrow;
+    public KeyCode downArrow = KeyCode.DownArrow;
 
     private void Awake()
     {
@@ -55,7 +70,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     private void Update()
@@ -67,9 +82,27 @@ public class InputManager : MonoBehaviour
         Interact();
         Jump();
         Move();
-        held = MainMouseHeld();
+        Activate();
+        ShiftHeld();
+        Arrowkey();
+        mainMouseHeld = MainMouseHeld();
+
     }
 
+    private void ShiftHeld()
+    {
+        bool keyDown = Input.GetKeyDown(shift);
+        bool keyUp = Input.GetKeyUp(shift);
+
+        if (keyDown)
+        {
+            onShiftPressed?.Invoke(true);
+        }
+        if (keyUp)
+        {
+            onShiftPressed?.Invoke(false);
+        }
+    }
 
     public void Interact()
     {
@@ -79,6 +112,13 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void Activate()
+    {
+        if (Input.GetKeyDown(activate))
+        {
+            onActivate?.Invoke();
+        }
+    }
 
     public void MainMouse()
     {
@@ -113,30 +153,54 @@ public class InputManager : MonoBehaviour
         }
 
     }
+
+    public void Arrowkey()
+    {
+        int dir = 0;
+        if (Input.GetKey(downArrow))
+        {
+            dir = 1;
+        }
+        if (Input.GetKey(upArrow))
+        {
+            dir = -1;
+        }
+        onArrowKey?.Invoke(dir);
+    }
+
+
     public void Move()
     {
-        Vector2 direction = Vector2.zero;
+        Vector3 direction = Vector3.zero;
+        Vector3 rotationVector = Vector3.zero;
 
         if (Input.GetKey(moveUp))
         {
-            direction += new Vector2(0, 1);
+            direction += new Vector3(0, 0, 1);
+            rotationVector += new Vector3(0, 0, 1);
         }
         if (Input.GetKey(moveLeft))
         {
-            direction += new Vector2(-1, 0);
+            direction += new Vector3(-1, 0, 0);
+            rotationVector += new Vector3(-1, 0, 0);
         }
         if (Input.GetKey(moveDown))
         {
-            direction += new Vector2(0, -1);
+            direction += new Vector3(0, 0, -1);
+            rotationVector += new Vector3(0, 0, -1);
         }
         if (Input.GetKey(moveRight))
         {
-            direction += new Vector2(1, 0);
+            direction += new Vector3(1, 0, 0);
+            rotationVector += new Vector3(1, 0, 0);
         }
 
-        onMoveKeyPressed.Invoke(direction);
+        onMoveKeyPressed?.Invoke(direction);
+        onChangedRotation?.Invoke(rotationVector);
 
     }
+
+
 
     public void Jump()
     {
@@ -162,8 +226,8 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(tabPressed))
         {
 
-                onTabPressed.Invoke();
-  
+            onTabPressed.Invoke();
+
         }
     }
 
