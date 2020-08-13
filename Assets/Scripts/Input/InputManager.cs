@@ -171,30 +171,37 @@ public class InputManager : MonoBehaviour
 
     public void Move()
     {
-        Vector3 direction = Vector3.zero;
+
         Vector3 rotationVector = Vector3.zero;
+        int x = 0;
+        int z = 0;
 
         if (Input.GetKey(moveUp))
         {
-            direction += new Vector3(0, 0, 1);
+            //direction += new Vector3(0, 0, 1);
+            z = 1;
             rotationVector += new Vector3(0, 0, 1);
         }
         if (Input.GetKey(moveLeft))
         {
-            direction += new Vector3(-1, 0, 0);
+            //direction += new Vector3(-1, 0, 0);
+            x = -1;
             rotationVector += new Vector3(-1, 0, 0);
         }
         if (Input.GetKey(moveDown))
         {
-            direction += new Vector3(0, 0, -1);
+            //direction += new Vector3(0, 0, -1);
+            z = -1;
             rotationVector += new Vector3(0, 0, -1);
         }
         if (Input.GetKey(moveRight))
         {
-            direction += new Vector3(1, 0, 0);
+            //direction += new Vector3(1, 0, 0);
+            x = 1;
             rotationVector += new Vector3(1, 0, 0);
         }
 
+        Vector3 direction = new Vector3(x, 0, z);
         onMoveKeyPressed?.Invoke(direction);
         onChangedRotation?.Invoke(rotationVector);
 

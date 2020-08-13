@@ -46,7 +46,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
 
     private void Update()
     {
-        rigidbody.velocity = movementDirection.normalized * movementSpeed;
+        rigidbody.velocity = movementVector.normalized * movementSpeed;
     }
     public void OnGameStateChanged(GameStates state)
     {
@@ -93,7 +93,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
 
     public override void ActivateAbility()
     {
-        movementDirection = Vector3.zero;
+        movementVector = Vector3.zero;
         DetachControls();
         pet.Activate();
         cameraFollow.SwithObjectToFollow(pet.transform);

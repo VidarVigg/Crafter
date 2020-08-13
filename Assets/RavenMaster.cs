@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,6 @@ public class RavenMaster : ControllableCharacter
 
     [SerializeField]
     private Transform startPosition;
-
-    [SerializeField]
-    private float verticalSpeed;
 
     [SerializeField]
     private float minimumAltitude;
@@ -31,10 +29,21 @@ public class RavenMaster : ControllableCharacter
     [SerializeField]
     private GameObject pointVisualizer;
 
+    [SerializeField]
+    private float wingFlapForce;
+
+    [SerializeField]
+    private float wingFlapFrequency;
+
+    [SerializeField]
+    private float constantUpwardsForce;
+
+    private float tick;
+
     private enum PetStates
     {
         Null,
-        Activated,
+        Climb,
         Active,
         Returning,
         Idle,
@@ -50,31 +59,47 @@ public class RavenMaster : ControllableCharacter
 
     private void Update()
     {
-        rigidbody.velocity = movementDirection.normalized * movementSpeed;
+
+    }
+    private void FixedUpdate()
+    {
+
         switch (petState)
         {
-            case PetStates.Activated:
-                Debug.Log("Activated");
+            case PetStates.Climb:
+
                 MoveToCorrectPosition();
                 break;
             case PetStates.Active:
-                Debug.Log("Active");
+                Active();
                 break;
             case PetStates.AutoMove:
-                Debug.Log("AutoMove");
+
                 AutoMove();
                 break;
             case PetStates.Returning:
-                Debug.Log("Returning");
+
                 Return();
                 break;
             case PetStates.Idle:
-                Debug.Log("Idle");
+
                 transform.position = startPosition.position;
                 transform.rotation = startPosition.rotation;
                 break;
             case PetStates.Null:
                 return;
+        }
+        rigidbody.velocity = movementVector;
+    }
+
+    private void Active()
+    {
+        
+        rigidbody.AddForce(Vector3.up * constantUpwardsForce);
+
+        if (transform.position.y < startAltitude)
+        {
+            SetPetState(PetStates.Climb);
         }
     }
 
@@ -83,12 +108,12 @@ public class RavenMaster : ControllableCharacter
         //Instantiate(pointVisualizer, GeneratedAutoMovePoint(), Quaternion.identity);
     }
 
-    private Vector3 GeneratedAutoMovePoint()
-    {
-        Vector3 rand = (Random.insideUnitSphere.normalized /** sphereSize*/) + transform.position;
-        Vector3 randomPosition = new Vector3(rand.x, transform.position.y, rand.z);
-        return randomPosition;
-    }
+    //private Vector3 GeneratedAutoMovePoint()
+    //{
+    //    Vector3 rand = (Random.insideUnitSphere.normalized /** sphereSize*/) + transform.position;
+    //    Vector3 randomPosition = new Vector3(rand.x, transform.position.y, rand.z);
+    //    return randomPosition;
+    //}
 
     private void SetPetState(PetStates newState)
     {
@@ -100,16 +125,24 @@ public class RavenMaster : ControllableCharacter
 
         if (transform.position.y < startAltitude)
         {
-            Move(Vector3.up);
+            if ((tick += Time.deltaTime) >= wingFlapFrequency)
+            {
+                rigidbody.AddForce(Vector3.up * wingFlapForce, ForceMode.Impulse);
+                Debug.Log("Flap");
+                tick -= wingFlapFrequency;
+            }
             Debug.Log("Climbing");
         }
         else
         {
+            if (rigidbody.velocity.y < 0)
+            {
+                SetPetState(PetStates.Active);
+                AttachControls();
+                Debug.Log("Reached target Altitude");
 
-            AttachControls();
-            movementSpeed -= climbSpeed;
-            SetPetState(PetStates.Active);
-            return;
+
+            }
         }
 
     }
@@ -118,19 +151,18 @@ public class RavenMaster : ControllableCharacter
     public void Activate()
     {
         rigidbody.isKinematic = false;
-        movementSpeed += climbSpeed;
+        //movementSpeed += climbSpeed;
         //active = true;
-        SetPetState(PetStates.Activated);
+        SetPetState(PetStates.Climb);
     }
 
 
     public override void Move(Vector3 direction)
     {
         base.Move(direction);
-        // If no Movement input is given auto movement will commence
         if (direction == Vector3.zero)
         {
-            SetPetState(PetStates.AutoMove);
+            Debug.Log("No Input");
         }
     }
 

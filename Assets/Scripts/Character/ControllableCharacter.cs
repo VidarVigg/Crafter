@@ -9,7 +9,7 @@ public abstract class ControllableCharacter : Character, IControllable
     protected float movementSpeed;
     [SerializeField]
     protected Rigidbody rigidbody;
-    protected Vector3 movementDirection;
+    protected Vector3 movementVector;
     protected Quaternion currentRotation;
     [SerializeField]
     private Interactable closestInteractable;
@@ -38,8 +38,8 @@ public abstract class ControllableCharacter : Character, IControllable
     }
     public virtual void Move(Vector3 direction)
     {
-        movementDirection = Vector3.zero;
-        movementDirection = direction.normalized * movementSpeed;
+        direction.y = rigidbody.velocity.y;
+        movementVector = direction.normalized * movementSpeed;
     }
     public virtual void Interact()
     {
@@ -61,7 +61,7 @@ public abstract class ControllableCharacter : Character, IControllable
     {
         if (vector != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.05f); ;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.07f);
         }
         else
         {
