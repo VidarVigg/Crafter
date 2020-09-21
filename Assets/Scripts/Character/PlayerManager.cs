@@ -25,7 +25,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
     private bool sprinting;
 
     [SerializeField]
-    private RavenMaster pet;
+    private RavenManager pet;
 
     [SerializeField]
     private CameraFollow cameraFollow;

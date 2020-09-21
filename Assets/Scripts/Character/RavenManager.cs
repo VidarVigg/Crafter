@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RavenMaster : ControllableCharacter
+public class RavenManager : ControllableCharacter
 {
 
     [SerializeField]
