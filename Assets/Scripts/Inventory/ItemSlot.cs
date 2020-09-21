@@ -6,8 +6,6 @@ using System;
 
 public class ItemSlot : MonoBehaviour
 {
-    //[SerializeField]
-    //private int itemAmt;
 
     [SerializeField]
     private string slotKey;
@@ -42,12 +40,6 @@ public class ItemSlot : MonoBehaviour
         set { slotKey = value; }
     }
 
-    //public int ItemAmt
-    //{
-    //    get { return itemAmt; }
-    //    set { itemAmt = value; }
-    //}
-
     public int SlotIndex
     {
         get { return slotIndex; }
@@ -57,7 +49,6 @@ public class ItemSlot : MonoBehaviour
     internal void ResetSlotValues()
     {
         SlotKey = "";
-        //ItemAmt = 0;
         HideItemAmt();
     }
 }

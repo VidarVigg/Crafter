@@ -68,11 +68,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
 
@@ -81,7 +76,7 @@ public class InputManager : MonoBehaviour
         TabPressed();
         Interact();
         Jump();
-        Move();
+        MoveGetAxis();
         Activate();
         ShiftHeld();
         Arrowkey();
@@ -168,46 +163,37 @@ public class InputManager : MonoBehaviour
         onArrowKey?.Invoke(dir);
     }
 
-
-    public void Move()
+    public void MoveGetAxis()
     {
-
         Vector3 rotationVector = Vector3.zero;
-        int x = 0;
-        int z = 0;
+
+        float x = 0;
+        float z = 0;
+
+        z = Input.GetAxis("Vertical");
+        x = Input.GetAxis("Horizontal");
 
         if (Input.GetKey(moveUp))
         {
-            //direction += new Vector3(0, 0, 1);
-            z = 1;
             rotationVector += new Vector3(0, 0, 1);
         }
         if (Input.GetKey(moveLeft))
         {
-            //direction += new Vector3(-1, 0, 0);
-            x = -1;
             rotationVector += new Vector3(-1, 0, 0);
         }
         if (Input.GetKey(moveDown))
         {
-            //direction += new Vector3(0, 0, -1);
-            z = -1;
             rotationVector += new Vector3(0, 0, -1);
         }
         if (Input.GetKey(moveRight))
         {
-            //direction += new Vector3(1, 0, 0);
-            x = 1;
             rotationVector += new Vector3(1, 0, 0);
         }
-
         Vector3 direction = new Vector3(x, 0, z);
         onMoveKeyPressed?.Invoke(direction);
         onChangedRotation?.Invoke(rotationVector);
 
     }
-
-
 
     public void Jump()
     {
@@ -229,12 +215,9 @@ public class InputManager : MonoBehaviour
 
     public void TabPressed()
     {
-
         if (Input.GetKeyDown(tabPressed))
         {
-
             onTabPressed.Invoke();
-
         }
     }
 

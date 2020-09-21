@@ -8,19 +8,29 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour, IGameStateObserver
 {
-    [SerializeField]
-    protected Inventory itemInventory;
 
-    [SerializeField]
-    protected ItemVisualizer[] itemVisualizers;
+    /*
+     
+     This is entire project is a work in progress that started with the building of this inventory system.
+     This script is the base class of that inventory system and it is something I have worked on through many iterations.
+     Since this game project has a lot of focus on item handling, crafting and looting, the goal was always to create a solid dynamic 
+     and expandable system that can easily be handled from the inspector and derived from. 
+     With this system I have succeeded in that and it works as intended.
+     To see how inheritance ties in to this system I recommend looking at the scripts PlayerInventory and BluePrintInput. 
+     They are two very different scripts that derives from this one.    
 
-    [SerializeField]
-    protected GameObject[] itemSlotGameObject;
+    */
 
     [SerializeField]
     protected Item[] developementInventory;
 
     [SerializeField]
+    protected Inventory itemInventory;
+
+    protected ItemVisualizer[] itemVisualizers;
+
+    protected GameObject[] itemSlotGameObject;
+
     protected ItemSlot[] itemSlotData;
 
     [SerializeField]
@@ -45,14 +55,13 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     protected InventoryTypes inventoryType;
 
     [SerializeField]
-    private string[] keys;
-
+    private int inventoryLength = 10;
 
     public delegate void OnPickedUpBluePrint();
     protected static OnPickedUpBluePrint onPickedUpBluePrint;
     protected static OnPickedUpBluePrint onUnloadedBluePrint;
     public delegate void InitializeInventoryRemotely(int size);
-    public InitializeInventoryRemotely initializeInventoryRemotely; // Todo: put in specific script
+    public InitializeInventoryRemotely initializeInventoryRemotely;
 
     public InventoryTypes GetInventoryType
     {
@@ -68,60 +77,48 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
     protected virtual void Awake()
     {
         initializeInventoryRemotely += InitializeInventory;
-
     }
 
     protected virtual void Start()
     {
-        InitializeInventory(itemInventory.items.Length);
+        InitializeInventory(inventoryLength);
         GameManager.GetInstance().gameStateObservers.Add(this);
     }
 
-    private void Update()
+    // Sets up all functionality for base inventory.
+    protected void InitializeInventory(int size)
     {
-
+        itemVisualizers = new ItemVisualizer[size];
+        itemSlotGameObject = new GameObject[size];
+        itemSlotData = new ItemSlot[size];
+        CloneItems();
+        CreateItemSlots();
+        UpdateItemslotValues();
+        VisualizeAndCacheSprites();
+        AddEventToAllSlots();
     }
 
+    //Activates inventory canvas.
     internal void Activate()
     {
         inventoryCanvas.enabled = true;
         GameManager.GetInstance().HandleState(GameStates.Inventory);
     }
 
+    //Deactivates inventory canvas.
     internal void Disable()
     {
         inventoryCanvas.enabled = false;
         GameManager.GetInstance().HandleState(GameStates.Game);
     }
 
+    // Used in the derived classes to set the owner of Item. This is primarily used for the saving system. 
     protected void AssignOwnerShip(InventoryTypes inventory, Item item)
     {
         item.ownerInventory = inventory;
     }
 
-    protected void InitializeInventory(int size)
-    {
-        itemVisualizers = new ItemVisualizer[size];
-        itemSlotGameObject = new GameObject[size];
-        itemSlotData = new ItemSlot[size];
-        keys = new string[size];
-        CloneItems();
-        CreateItemSlots();
-        UpdateItemslotValues();
-        VisualizeItemSlots();
-        CacheVisuals();
-        AddEventToAllSlots();
-    }
-
-    internal void ClearInventory()
-    {
-        for (int i = 0; i < itemInventory.items.Length; i++)
-        {
-            Delete(i);
-            DevisualizeAtIndex(i);
-        }
-    }
-
+    // For development purposes only. Items are added from the inspector to the development inventory. This function make clones of the items and adds them to the ingame inventory.
     protected void CloneItems()
     {
         for (int i = 0; i < developementInventory.Length; i++)
@@ -134,6 +131,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         }
     }
 
+    // Creating the slots that contain item data as well as input listeners.
     protected virtual void CreateItemSlots()
     {
         for (int i = 0; i < itemInventory.items.Length; i++)
@@ -145,6 +143,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         }
     }
 
+    // Used to assign values to the item slots containing items.
     internal void UpdateItemslotValues()
     {
         for (int i = 0; i < itemInventory.items.Length; i++)
@@ -152,27 +151,46 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             if (itemInventory.items[i] != null)
             {
                 itemSlotGameObject[i].GetComponent<ItemSlot>().SlotKey = itemInventory.items[i].key;
-                //itemSlotGameObject[i].GetComponent<ItemSlot>().ItemAmt += 1;
             }
         }
     }
 
-    protected void CacheVisuals()
+    // VIsualizes the items in the inventory after which the sprites of the Items are cached in to the item visualizers. This makes it so we don´t have to get the sprites every time we want to update them.
+    protected void VisualizeAndCacheSprites()
     {
         for (int i = 0; i < itemInventory.items.Length; i++)
         {
+            if (itemInventory.items[i])
+            {
+                itemSlotGameObject[i].GetComponentsInChildren<Image>()[1].sprite = itemInventory.items[i].itemSprite;
+            }
+            else
+            {
+                itemSlotGameObject[i].GetComponentsInChildren<Image>()[1].sprite = emptySprite;
+            }
             itemVisualizers[i] = new ItemVisualizer();
             itemVisualizers[i].backgroundImage = itemSlotGameObject[i].GetComponentsInChildren<Image>()[0];
             itemVisualizers[i].itemImage = itemSlotGameObject[i].GetComponentsInChildren<Image>()[1];
         }
     }
 
+    // Adding listeners to one specific itemslot.
     private void AddEventAtIndex(int index)
     {
         itemSlotGameObject[index].GetComponent<CustomButton>().leftClick.AddListener(() => OnClick(index, "Left"));
         itemSlotGameObject[index].GetComponent<CustomButton>().rightClick.AddListener(() => OnClick(index, "Right"));
     }
 
+    //Adding listeners to all itemslots of the inventory.
+    private void AddEventToAllSlots()
+    {
+        for (int i = 0; i < itemInventory.items.Length; i++)
+        {
+            AddEventAtIndex(i);
+        }
+    }
+
+    // Controlls what happens when you click a slot in the inventory. The parameter index is the index of the clicked Itemslot. The "Key" is uset to controll stacking of items.
     protected virtual void OnClick(int index, string key)
     {
         if (pickedUpItem == null)
@@ -183,7 +201,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             }
             else
             {
-                //Debug.Log("There is nothing to pick up here");
+                Debug.Log("There is nothing to pick up here");
             }
         }
         else
@@ -207,19 +225,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         }
     }
 
-    private void VisualizeOnPickup(Item pickedUpItem)
-    {
-
-    }
-
-    private void AddEventToAllSlots()
-    {
-        for (int i = 0; i < itemInventory.items.Length; i++)
-        {
-            AddEventAtIndex(i);
-        }
-    }
-
+    // Behaviour for when item is picked up from the inventory. Picked up item and how many Items that are picked up are cached.
     private void Pickup(int index, string key)
     {
         ItemSlot slot = itemSlotGameObject[index].GetComponent<ItemSlot>();
@@ -242,50 +248,48 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
                 slot.HideItemAmt();
                 Debug.Log("Picked up all " + pickedUpAmt);
             }
-            //else if (key == "Right")
-            //{
-            //    Debug.Log("Picked up one");
-            //    if (/*slot.ItemAmt*/itemInventory.items[index].itemCopies >= 1)
-            //    {
-            //        pickedUpItem = itemInventory.items[index].CreateInstance(InventoryTypes.None);
-            //        itemInventory.items[index].itemCopies -= 1;
-            //        pickedUpAmt += 1;
-            //        slot.SetDisplayAmount(itemInventory.items[index].itemCopies/*slot.ItemAmt*/);
-            //        if (itemInventory.items[index].itemCopies == 1)
-            //        {
-            //            slot.HideItemAmt();
-            //        }
-            //        if (itemInventory.items[index].itemCopies == 0)
-            //        {
-            //            slot.ResetSlotValues();
-            //            DevisualizeAtIndex(index);
-            //        }
-            //    }
-            //}
+            else if(key == "Right")
+            {
+
+            }
         }
     }
 
+    // "Devisualizes" a  specific item visualizer
     public void DevisualizeAtIndex(int index)
     {
         itemVisualizers[index].itemImage.sprite = emptySprite;
     }
 
+    // Updating the item visualizer at specific index.
     protected void VisualizeAtIndex(int index, Item item)
     {
         itemVisualizers[index].itemImage.sprite = item.itemSprite;
         itemVisualizers[index].backgroundImage.sprite = item.background;
     }
 
+    // Removes Item from inventory.
     public void Delete(int index)
     {
         itemInventory.items[index] = null;
     }
 
+    // Clears entire inventory
+    internal void ClearInventory()
+    {
+        for (int i = 0; i < itemInventory.items.Length; i++)
+        {
+            Delete(i);
+            DevisualizeAtIndex(i);
+        }
+    }
+
+    // Behaviour for when item is added to inventory. This function also controls wether item in question should be stacked or not.
     public void AddItem(Item item, int index, bool stack = false)
     {
         if (stack)
         {
-            itemInventory.items[index].itemCopies += 1;
+            itemInventory.items[index].itemCopies += pickedUpAmt;
         }
         else
         {
@@ -296,6 +300,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         item.inventoryIndex = itemSlotData[index].SlotIndex;
     }
 
+    // Function called if an Item is picked up I.E. picked up item is cached, and user presses inventory slot to put it down.
     protected virtual void TryToPutDown(int index, Item item)
     {
         ItemSlot slot = itemSlotGameObject[index].GetComponent<ItemSlot>();
@@ -304,55 +309,6 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         Debug.Log("The  picked up item " + pickedUpItem + " was added to index " + index + " Copies on index " + index + " = " + itemInventory.items[index].itemCopies);
         pickedUpAmt = 0;
         pickedUpItem = null;
-        if (item.itemCopies > 1)
-        {
-            slot.SetDisplayAmount(/*slot.ItemAmt*/itemInventory.items[index].itemCopies);
-            slot.DisplayItemAmt();
-        }
-    }
-
-    public void VisualizeItemSlots()
-    {
-        for (int i = 0; i < itemInventory.items.Length; i++)
-        {
-            if (itemInventory.items[i])
-            {
-                itemSlotGameObject[i].GetComponentsInChildren<Image>()[1].sprite = itemInventory.items[i].itemSprite;
-            }
-            else
-            {
-                itemSlotGameObject[i].GetComponentsInChildren<Image>()[1].sprite = emptySprite;
-            }
-        }
-    }
-
-    public void AddDropEventForAllSlots()
-    {
-        for (int i = 0; i < itemSlotGameObject.Length; i++)
-        {
-
-            if (!itemInventory.items[i])
-            {
-                int index = i;
-                CustomButton cb = itemSlotGameObject[i].GetComponent<CustomButton>();
-                cb.leftClick.AddListener(() => TryToPutDown(index, pickedUpItem));
-            }
-
-        }
-    }
-
-    public void RemoveDropEventForAll()
-    {
-        for (int i = 0; i < itemSlotGameObject.Length; i++)
-        {
-            if (!itemInventory.items[i])
-            {
-                UnityEvent empty = new UnityEvent();
-                CustomButton cb = itemSlotGameObject[i].GetComponent<CustomButton>();
-                cb.leftClick = empty;
-
-            }
-        }
     }
 
     public void OnGameStateChanged(GameStates state)

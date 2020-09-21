@@ -37,7 +37,6 @@ public class BluePrintInput : InventoryManager
 
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (!activated)

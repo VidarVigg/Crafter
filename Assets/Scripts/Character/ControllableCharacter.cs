@@ -4,20 +4,32 @@ using UnityEngine;
 
 public abstract class ControllableCharacter : Character, IControllable
 {
-
+    /*
+     
+     This is the base class for controllable characters. One of the mechanics of this game is to switch between the main character and the main character's pet.
+     This works by unsubscribing and subscribing functions to delegates in the input system (as seen in the functions AttachControlls and DetachControlls).
+     Due to the use of the interface IControllable that contains the subscribeable functions it is very easy to create controllable characters and switch between them.
+     
+    */
     [SerializeField]
     protected float movementSpeed;
+
     [SerializeField]
     protected Rigidbody rigidbody;
-    protected Vector3 movementVector;
-    protected Quaternion currentRotation;
+
     [SerializeField]
     private Interactable closestInteractable;
+
+    protected Vector3 movementVector;
+
+    protected Quaternion currentRotation;
+
     public Interactable ClosestInteractable
     {
         get { return closestInteractable; }
         set { closestInteractable = value; }
     }
+
     public void AttachControls()
     {
         InputManager.INSTANCE.onMoveKeyPressed += Move;
@@ -53,20 +65,20 @@ public abstract class ControllableCharacter : Character, IControllable
             Debug.Log("Interacted With None");
         }
     }
-    public virtual void RightMouseToggle(bool toggle)
-    {
-
-    }
     public virtual void RotateCharacter(Vector3 vector)
     {
         if (vector != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.07f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.03f);
         }
         else
         {
             return;
         }
+    }
+    public virtual void RightMouseToggle(bool toggle)
+    {
+
     }
     public virtual void ActivateAbility()
     {

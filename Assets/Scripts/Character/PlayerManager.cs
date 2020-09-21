@@ -5,21 +5,28 @@ using UnityEngine;
 
 public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
 {
+
     [SerializeField]
     private bool inInteractingDistance;
 
     [SerializeField]
     private MagicGrid magicGrid;
+
     [SerializeField]
     private string playerName = "playerName";
+
     [SerializeField]
     private PlayerInventory inventory;
+
     [SerializeField]
     private float sprintAddition;
+
     [SerializeField]
     private bool sprinting;
+
     [SerializeField]
     private RavenMaster pet;
+
     [SerializeField]
     private CameraFollow cameraFollow;
     private float defaultMovementSpeed;
@@ -34,13 +41,14 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
     {
         ClosestInteractable = interactable;
     }
+
     private void Start()
     {
         GameManager.GetInstance().Player = this;
         GameManager.GetInstance().gameStateObservers.Add(this);
         rigidbody = GetComponent<Rigidbody>();
         AttachControls();
-        SaveManager.INSTANCE.saveObserversDictionary.Add("PlayerInventory", this); //
+        SaveManager.INSTANCE.saveObserversDictionary.Add("PlayerInventory", this);
         defaultMovementSpeed = movementSpeed;
     }
 
@@ -48,6 +56,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
     {
         rigidbody.velocity = movementVector.normalized * movementSpeed;
     }
+
     public void OnGameStateChanged(GameStates state)
     {
         if (state == GameStates.Inventory)
@@ -88,7 +97,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
 
     public void FinalizeLoad()
     {
-        //throw new NotImplementedException();
+        //
     }
 
     public override void ActivateAbility()
@@ -98,6 +107,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
         pet.Activate();
         cameraFollow.SwithObjectToFollow(pet.transform);
     }
+
     public override void RightMouseToggle(bool toggle)
     {
         magicGrid.magicCanvas.enabled = toggle;
@@ -110,6 +120,7 @@ public class PlayerManager : ControllableCharacter, IGameStateObserver, ISavable
             magicGrid.DisableGrid();
         }
     }
+
     public override void Sprint(bool sprinting)
     {
         if (sprinting)

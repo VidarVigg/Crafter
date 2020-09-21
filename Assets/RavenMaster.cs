@@ -25,7 +25,6 @@ public class RavenMaster : ControllableCharacter
     [SerializeField]
     private float climbSpeed;
 
-    // For visualization purpose;
     [SerializeField]
     private GameObject pointVisualizer;
 
@@ -37,6 +36,12 @@ public class RavenMaster : ControllableCharacter
 
     [SerializeField]
     private float constantUpwardsForce;
+
+    [SerializeField]
+    private Transform leftTurningPoint;
+
+    [SerializeField]
+    private Transform rightTurningPoint;
 
     private float tick;
 
@@ -67,60 +72,45 @@ public class RavenMaster : ControllableCharacter
         switch (petState)
         {
             case PetStates.Climb:
-
-                MoveToCorrectPosition();
+                Climb();
                 break;
             case PetStates.Active:
                 Active();
                 break;
             case PetStates.AutoMove:
-
-                AutoMove();
                 break;
             case PetStates.Returning:
-
                 Return();
                 break;
             case PetStates.Idle:
-
                 transform.position = startPosition.position;
                 transform.rotation = startPosition.rotation;
                 break;
             case PetStates.Null:
                 return;
         }
-        rigidbody.velocity = movementVector;
+
     }
 
     private void Active()
     {
-        
+        rigidbody.velocity = new Vector3(movementVector.x, rigidbody.velocity.y, movementVector.z);
         rigidbody.AddForce(Vector3.up * constantUpwardsForce);
 
         if (transform.position.y < startAltitude)
         {
-            SetPetState(PetStates.Climb);
+            Climb();
         }
+
     }
 
-    private void AutoMove()
-    {
-        //Instantiate(pointVisualizer, GeneratedAutoMovePoint(), Quaternion.identity);
-    }
-
-    //private Vector3 GeneratedAutoMovePoint()
-    //{
-    //    Vector3 rand = (Random.insideUnitSphere.normalized /** sphereSize*/) + transform.position;
-    //    Vector3 randomPosition = new Vector3(rand.x, transform.position.y, rand.z);
-    //    return randomPosition;
-    //}
 
     private void SetPetState(PetStates newState)
     {
         petState = newState;
     }
 
-    private void MoveToCorrectPosition()
+    private void Climb()
     {
 
         if (transform.position.y < startAltitude)
@@ -140,8 +130,6 @@ public class RavenMaster : ControllableCharacter
                 SetPetState(PetStates.Active);
                 AttachControls();
                 Debug.Log("Reached target Altitude");
-
-
             }
         }
 
@@ -151,19 +139,13 @@ public class RavenMaster : ControllableCharacter
     public void Activate()
     {
         rigidbody.isKinematic = false;
-        //movementSpeed += climbSpeed;
-        //active = true;
+        rigidbody.useGravity = true;
         SetPetState(PetStates.Climb);
     }
-
 
     public override void Move(Vector3 direction)
     {
         base.Move(direction);
-        if (direction == Vector3.zero)
-        {
-            Debug.Log("No Input");
-        }
     }
 
     public override void Interact()
@@ -188,7 +170,7 @@ public class RavenMaster : ControllableCharacter
 
     public override void ActivateAbility()
     {
-
+        movementVector = Vector3.zero;
         Debug.Log("SwitchBack");
         DetachControls();
         player.AttachControls();
@@ -198,17 +180,17 @@ public class RavenMaster : ControllableCharacter
 
     public void Return()
     {
+        //movementVector = (startPosition.position - transform.position).normalized;
         rigidbody.velocity = (startPosition.position - transform.position).normalized * movementSpeed;
-
 
         Vector3 target = startPosition.position - transform.position;
         float angle = Mathf.Atan2(target.x, target.z) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 20f * Time.deltaTime);
 
-
         if ((startPosition.position - transform.position).sqrMagnitude < 0.1f)
         {
+            Debug.Log("Returnsed");
             transform.position = startPosition.position;
             transform.rotation = startPosition.rotation;
             rigidbody.velocity = Vector3.zero;

@@ -40,9 +40,9 @@ public class Container : InventoryManager
             {
                 int index = i;
                 Inventory.items[index] = ContainerData.possibleLoot[Random.Range(0, ContainerData.possibleLoot.Length)].CreateInstance(inventoryType);
-
+                VisualizeAtIndex(index, Inventory.items[index]);
             }
-            VisualizeItemSlots();
+
             UpdateItemslotValues();
             opened = true;
         }
