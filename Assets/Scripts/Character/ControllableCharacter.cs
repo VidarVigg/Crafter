@@ -9,6 +9,8 @@ public abstract class ControllableCharacter : Character, IControllable
      This is the base class for controllable characters. One of the mechanics of this game is to switch between the main character and the main character's pet.
      This works by unsubscribing and subscribing functions to delegates in the input system (as seen in the functions AttachControlls and DetachControlls).
      Due to the use of the interface IControllable that contains the subscribeable functions it is very easy to create controllable characters and switch between them.
+     I feel proud of this solution due to its abstraction of what a player character is and can be, and how easy the switch between them is to achieve in code.
+     
      
     */
     [SerializeField]

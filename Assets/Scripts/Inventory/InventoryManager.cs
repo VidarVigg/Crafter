@@ -15,7 +15,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
      This script is the base class of that inventory system and it is something I have worked on through many iterations.
      Since this game project has a lot of focus on item handling, crafting and looting, the goal was always to create a solid dynamic 
      and expandable system that can easily be handled from the inspector and derived from. 
-     With this system I have succeeded in that and it works as intended.
+     I am proud of this system because I have succeeded in that.
      To see how inheritance ties in to this system I recommend looking at the scripts PlayerInventory and BluePrintInput. 
      They are two very different scripts that derives from this one.    
 
