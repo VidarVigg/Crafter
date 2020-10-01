@@ -46,7 +46,6 @@ public class SaveManager : MonoBehaviour
 
         if (File.Exists(Application.persistentDataPath + "/" + "GlobalSave.txt"))
         {
-            //Debug.Log("Found File " + Application.persistentDataPath + "/" + "save.txt");
             string load = File.ReadAllText(Application.persistentDataPath + "/" + "GlobalSave.txt");
             globalSave = JsonUtility.FromJson<GlobalSave>(load);
             HandlePlayerSave(globalSave.player);

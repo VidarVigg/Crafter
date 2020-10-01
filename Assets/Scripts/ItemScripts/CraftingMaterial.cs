@@ -14,12 +14,12 @@ public class CraftingMaterial : Item
 
     public CraftingMaterialTypes craftingMaterialType;
 
-    internal override Item CreateInstance(InventoryTypes inventory = InventoryTypes.None)
+    internal override Item CreateInstance()
     {
         CraftingMaterial newCraftingMaterial = CreateInstance<CraftingMaterial>();
         newCraftingMaterial.craftingMaterialType = craftingMaterialType;
         newCraftingMaterial.itemName = name;
-        newCraftingMaterial.ownerInventory = inventory;
+        newCraftingMaterial.ownerInventory = InventoryTypes.None;
         newCraftingMaterial.itemSprite = SpriteHandler.GetInstance().GetItemSprite(craftingMaterialType.ToString());
         newCraftingMaterial.background = SpriteHandler.GetInstance().GetBackgroundSprite("Common");
         newCraftingMaterial.inventoryIndex = inventoryIndex;

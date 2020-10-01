@@ -59,13 +59,11 @@ public class CraftingInventory : InventoryManager
 
                     return;
                 }
-
                 else
                 {
                     Debug.Log("Doesn't belong here");
                 }
             }
-
         }
         else
         {

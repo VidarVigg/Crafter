@@ -11,14 +11,14 @@ public class BluePrint : Item
     public string output;
     public bool learnt;
 
-    internal override Item CreateInstance(InventoryTypes inventory)
+    internal override Item CreateInstance()
     {
         BluePrint newBluePrint = CreateInstance<BluePrint>();
         newBluePrint.itemName = itemName;
         newBluePrint.itemType = itemType;
         newBluePrint.key = key;
 
-        newBluePrint.ownerInventory = inventory;
+        newBluePrint.ownerInventory = InventoryTypes.None;
         newBluePrint.inventoryIndex = inventoryIndex;
 
         newBluePrint.stackable = stackable;

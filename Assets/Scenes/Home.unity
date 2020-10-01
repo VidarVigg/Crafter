@@ -2048,7 +2048,6 @@ MonoBehaviour:
   activate: 102
   upArrow: 273
   downArrow: 274
-  inputReleaseDelay: 0
 --- !u!4 &1574808021
 Transform:
   m_ObjectHideFlags: 0
@@ -2244,7 +2243,6 @@ MonoBehaviour:
   activate: 102
   upArrow: 273
   downArrow: 274
-  inputReleaseDelay: 0
 --- !u!1 &1803770634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,15 +2274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developementInventory:
   - {fileID: 11400000, guid: 2ae59fa42745dd44bb3ccff8d39c0e94, type: 2}
-  - {fileID: 11400000, guid: a8291f4bcde77de4cac100b19f9dc78e, type: 2}
-  - {fileID: 11400000, guid: 2ae59fa42745dd44bb3ccff8d39c0e94, type: 2}
-  - {fileID: 11400000, guid: 2ae59fa42745dd44bb3ccff8d39c0e94, type: 2}
-  - {fileID: 11400000, guid: 2ae59fa42745dd44bb3ccff8d39c0e94, type: 2}
   - {fileID: 11400000, guid: c676387abfb63f94b8dbbc7848d984b7, type: 2}
-  - {fileID: 11400000, guid: c676387abfb63f94b8dbbc7848d984b7, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2ae59fa42745dd44bb3ccff8d39c0e94, type: 2}
   itemInventory:
     items:
     - {fileID: 0}

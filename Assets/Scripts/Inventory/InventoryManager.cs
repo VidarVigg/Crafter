@@ -125,7 +125,7 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         {
             if (developementInventory[i] != null)
             {
-                itemInventory.items[i] = developementInventory[i].CreateInstance(inventoryType);
+                itemInventory.items[i] = developementInventory[i].CreateInstance();
                 itemInventory.items[i].inventoryIndex = i;
             }
         }
@@ -150,7 +150,8 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         {
             if (itemInventory.items[i] != null)
             {
-                itemSlotGameObject[i].GetComponent<ItemSlot>().SlotKey = itemInventory.items[i].key;
+                itemSlotData[i].SlotKey = itemInventory.items[i].key;
+
             }
         }
     }
@@ -250,7 +251,20 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
             }
             else if(key == "Right")
             {
-
+                pickedUpAmt += 1;
+                itemInventory.items[index].itemCopies -= 1;
+                itemSlotData[index].SetDisplayAmount(itemInventory.items[index].itemCopies);
+                pickedUpItem = itemInventory.items[index].CreateInstance();
+                pickedUpItem.itemCopies = pickedUpAmt;
+                if (itemInventory.items[index].itemCopies <= 1)
+                {
+                    itemSlotData[index].HideItemAmt();
+                    if(itemInventory.items[index].itemCopies == 0)
+                    {
+                        DevisualizeAtIndex(index);
+                        Delete(index);
+                    }
+                }
             }
         }
     }
@@ -306,6 +320,11 @@ public class InventoryManager : MonoBehaviour, IGameStateObserver
         ItemSlot slot = itemSlotGameObject[index].GetComponent<ItemSlot>();
         bool stacking = itemInventory.items[index];
         AddItem(item, index, stacking);
+        if(Inventory.items[index].itemCopies > 1)
+        {
+            slot.DisplayItemAmt();
+            slot.SetDisplayAmount(Inventory.items[index].itemCopies);
+        }  
         Debug.Log("The  picked up item " + pickedUpItem + " was added to index " + index + " Copies on index " + index + " = " + itemInventory.items[index].itemCopies);
         pickedUpAmt = 0;
         pickedUpItem = null;

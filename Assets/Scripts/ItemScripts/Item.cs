@@ -19,7 +19,7 @@ public abstract class Item : ScriptableObject
     internal Sprite itemSprite;
     internal Sprite background;
 
-    internal abstract Item CreateInstance(InventoryTypes inventory);
+    internal abstract Item CreateInstance();
     internal abstract ItemSaveInfo GetInstanceSaveInfo(Item item);
 
 }

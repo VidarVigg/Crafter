@@ -39,7 +39,7 @@ public class Container : InventoryManager
             for (int i = 0; i < Inventory.items.Length; i++)
             {
                 int index = i;
-                Inventory.items[index] = ContainerData.possibleLoot[Random.Range(0, ContainerData.possibleLoot.Length)].CreateInstance(inventoryType);
+                Inventory.items[index] = ContainerData.possibleLoot[Random.Range(0, ContainerData.possibleLoot.Length)].CreateInstance();
                 VisualizeAtIndex(index, Inventory.items[index]);
             }
 

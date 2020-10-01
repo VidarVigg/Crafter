@@ -22,7 +22,7 @@ public class BluePrintInventory : InventoryManager, ISavable
         {
             if (itemInventory.items[index] != null)
             {
-                Item blueprint = itemInventory.items[index].CreateInstance(InventoryTypes.BluePrintInput) as BluePrint;
+                Item blueprint = itemInventory.items[index].CreateInstance() as BluePrint;
                 BluePrintInput bluePrintInput = ServiceLocator.InventoryService.GetInventoryByKey(InventoryTypes.BluePrintInput) as BluePrintInput;
                 if (bluePrintInput.Inventory.items[0] == null)
                 {

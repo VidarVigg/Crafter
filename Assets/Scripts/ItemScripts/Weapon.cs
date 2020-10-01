@@ -20,14 +20,14 @@ internal class Weapon : Item
 
     public WeaponTypes weaponType;
 
-    internal override Item CreateInstance(InventoryTypes inventory = InventoryTypes.None)
+    internal override Item CreateInstance()
     {
         Weapon newWeapon = CreateInstance<Weapon>();
         newWeapon.itemType = itemType;
         newWeapon.weaponType = weaponType;
         newWeapon.itemName = itemName;
         newWeapon.damage = damage;
-        newWeapon.ownerInventory = inventory;
+        newWeapon.ownerInventory = InventoryTypes.None;
         newWeapon.inventoryIndex = inventoryIndex;
         newWeapon.key = weaponType.ToString();
         newWeapon.stackable = stackable;
